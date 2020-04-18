@@ -9,7 +9,7 @@ public class Spawner : MonoBehaviour
     public GameObject controller;
 
     float instantiationTimer;
-    public float generationTime = 0.5f;
+    public float generationTime = 10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +42,9 @@ public class Spawner : MonoBehaviour
             newPlane.transform.GetChild(0).gameObject.transform.Rotate(rotation, Space.Self);
             newPlane.GetComponent<PlaneMov>().setFuel(f);
 
-            controller.GetComponent<Controller>().addPlane(newPlane);
+            int id = controller.GetComponent<Controller>().addPlane(newPlane);
+
+            newPlane.GetComponent<PlaneMov>().setId(id);
         }
     }
 
@@ -56,19 +58,19 @@ public class Spawner : MonoBehaviour
         Vector3 position;
         switch (pos) {
             case 1:
-                position = new Vector3(0.0f, 4.2f, z);
+                position = new Vector3(0.0f, z/20f, z);
                 break;
             case 2:
-                position = new Vector3(4.2f, 0.0f, z);
+                position = new Vector3(z/20f, 0.0f, z);
                 break;
             case 3:
-                position = new Vector3(0.0f, -4.2f, z);
+                position = new Vector3(0.0f, -z/20f, z);
                 break;
             case 4:
-                position = new Vector3(-4.2f, 0.0f, z);
+                position = new Vector3(-z/20f, 0.0f, z);
                 break;
             default:
-                position = new Vector3(0.0f, 4.2f, z);
+                position = new Vector3(0.0f, z/20f, z);
                 break;
         }
         return position;
@@ -78,19 +80,19 @@ public class Spawner : MonoBehaviour
         Vector3 rotation;
         switch (pos) {
             case 1:
-                rotation = new Vector3(0.0f, 0.0f, 180.0f);
-                break;
-            case 2:
                 rotation = new Vector3(0.0f, 0.0f, 90.0f);
                 break;
-            case 3:
+            case 2:
                 rotation = new Vector3(0.0f, 0.0f, 0.0f);
                 break;
-            case 4:
+            case 3:
                 rotation = new Vector3(0.0f, 0.0f, 270.0f);
                 break;
-            default:
+            case 4:
                 rotation = new Vector3(0.0f, 0.0f, 180.0f);
+                break;
+            default:
+                rotation = new Vector3(0.0f, 0.0f, 90.0f);
                 break;
         }
         return rotation;

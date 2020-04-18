@@ -21,8 +21,9 @@ public class Controller : MonoBehaviour
          Debug.Log("Length3: " + planes.Count);
     }
 
-    public void addPlane(GameObject plane) {
+    public int addPlane(GameObject plane) {
         planes.Add(plane);
+        return planes.IndexOf(plane);
     }
 
     public void planeLanded(GameObject plane){
