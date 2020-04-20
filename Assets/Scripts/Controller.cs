@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
     List<GameObject> planes = new List<GameObject>();
+
+    public InputField inputFieldPlane;
+    public InputField inputFieldAlt;
+    public InputField inputFieldSec;
+    public Button buttonDescend;
 
     int generatedPlanes = 0;
     int storedPlanes = 0;
@@ -18,7 +24,7 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         Debug.Log("Length3: " + planes.Count);
+        //Debug.Log("Length3: " + planes.Count);
     }
 
     public int addPlane(GameObject plane) {
@@ -54,5 +60,34 @@ public class Controller : MonoBehaviour
 
         return false;
 
+    }
+
+    public void onPressDescend() {
+        //comprobar que nada esté vacío
+        if( !string.IsNullOrEmpty(inputFieldAlt.text) && !string.IsNullOrEmpty(inputFieldPlane.text) && !string.IsNullOrEmpty(inputFieldSec.text) ) {
+            
+            int num = int.Parse(inputFieldPlane.text);
+            float t = float.Parse(inputFieldSec.text);
+            float z = float.Parse(inputFieldAlt.text) / 10;
+
+            if(num >= 0 && num < planes.Count && t >= 0) {
+                if(z >= 0 && z < planes[num].transform.position.z) {
+
+                    float am = planes[num].GetComponent<PlaneMov>().getModule();
+                    float nm =  Mathf.Sqrt((z*z) + ((z/20)*(z/20)));
+                    
+                    float x = planes[num].transform.position.x;
+                    float y = planes[num].transform.position.y;
+
+                    x = (x / am) * nm;
+                    y = (y / am) * nm;
+
+                    planes[num].GetComponent<PlaneMov>().descendPlane(planes[num].transform, new Vector3(x,y,z), t);
+                }
+            }
+
+            
+
+        }
     }
 }

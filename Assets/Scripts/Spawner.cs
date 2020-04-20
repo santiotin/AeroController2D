@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-
     public GameObject planePrefab;
     public GameObject controller;
 
     float instantiationTimer;
-    public float generationTime = 10f;
+    float generationTime = 5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,11 +35,10 @@ public class Spawner : MonoBehaviour
         
         if(!checkIfHits(position)) {
             Vector3 rotation = getRotation(pos);
-            float f = Random.Range(4900.0f, 5000.0f);
+            
 
             newPlane = Instantiate(planePrefab, position, Quaternion.identity);
             newPlane.transform.GetChild(0).gameObject.transform.Rotate(rotation, Space.Self);
-            newPlane.GetComponent<PlaneMov>().setFuel(f);
 
             int id = controller.GetComponent<Controller>().addPlane(newPlane);
 
@@ -98,6 +96,7 @@ public class Spawner : MonoBehaviour
         return rotation;
     }
 
+    
 }
 
 
