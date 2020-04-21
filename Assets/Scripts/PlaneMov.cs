@@ -10,6 +10,7 @@ public class PlaneMov : MonoBehaviour
     public Sprite planeColision;
     public GameObject altitudeText;
     public GameObject idText;
+    GameObject controller;
     float fuel = 0;
     float speed = 20;
     float module = 0;
@@ -20,6 +21,7 @@ public class PlaneMov : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        controller = GameObject.Find ("Controller");
         module = calcModule(transform.position);
         fuel = Random.Range(4900.0f, 5000.0f);
     }
@@ -27,6 +29,7 @@ public class PlaneMov : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        id = controller.GetComponent<Controller>().getIndex(gameObject);
         //show altitude
         int t = (int)(transform.position.z * 10f);
         altitudeText.GetComponent<Text>().text = t.ToString();
@@ -62,6 +65,8 @@ public class PlaneMov : MonoBehaviour
         if(!collision)gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeNormal;
         gameObject.transform.GetChild(0).transform.Rotate(Vector3.forward, -90);
         descending = false;
+
+        if(position == new Vector3(0,0,0)) OnDestroy();
     }
 
     public float getModule(){
@@ -81,5 +86,9 @@ public class PlaneMov : MonoBehaviour
         gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeColision;
     }
 
+    void OnDestroy() {
+        controller.GetComponent<Controller>().planeLanded(gameObject);
+        Destroy(gameObject);
+    }
 
 }

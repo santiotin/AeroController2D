@@ -11,9 +11,12 @@ public class Controller : MonoBehaviour
     public InputField inputFieldAlt;
     public InputField inputFieldSec;
     public Button buttonDescend;
+    public InputField inputFieldPrepPlane;
+    public Button buttonLand;
 
     int generatedPlanes = 0;
     int storedPlanes = 0;
+    bool isLanding = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +38,7 @@ public class Controller : MonoBehaviour
     public void planeLanded(GameObject plane){
         storedPlanes++;
         planes.Remove(plane);
+        isLanding = false;
     }
 
     public int getNumPlanes() {
@@ -49,6 +53,10 @@ public class Controller : MonoBehaviour
         return storedPlanes;
     }
 
+    public int getIndex(GameObject plane) {
+        return planes.IndexOf(plane);
+    }
+
     public bool checkIfHits(Vector3 newPosition) {
 
         foreach(GameObject plane in planes) {
@@ -57,9 +65,7 @@ public class Controller : MonoBehaviour
                 plane.transform.position.z + 50 > newPosition.z && plane.transform.position.z - 50 < newPosition.z)
                 return true; 
         }
-
         return false;
-
     }
 
     public void onPressDescend() {
@@ -71,7 +77,7 @@ public class Controller : MonoBehaviour
             float z = float.Parse(inputFieldAlt.text) / 10;
 
             if(num >= 0 && num < planes.Count && t >= 0) {
-                if(z >= 0 && z < planes[num].transform.position.z) {
+                if(z >= 30 && z < planes[num].transform.position.z) {
 
                     float am = planes[num].GetComponent<PlaneMov>().getModule();
                     float nm =  Mathf.Sqrt((z*z) + ((z/20)*(z/20)));
@@ -85,9 +91,17 @@ public class Controller : MonoBehaviour
                     planes[num].GetComponent<PlaneMov>().descendPlane(planes[num].transform, new Vector3(x,y,z), t);
                 }
             }
+        }
+    }
 
-            
+    public void onPressPrepToLand() {
+        if(!string.IsNullOrEmpty(inputFieldPrepPlane.text) && !isLanding) {
+            int num = int.Parse(inputFieldPrepPlane.text);
 
+            if(num >= 0 && num < planes.Count) {
+                isLanding = true;
+                planes[num].GetComponent<PlaneMov>().descendPlane(planes[num].transform, new Vector3(0,0,0), 5.0f);
+            }
         }
     }
 }
