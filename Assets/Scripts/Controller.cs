@@ -88,7 +88,7 @@ public class Controller : MonoBehaviour
                     x = (x / am) * nm;
                     y = (y / am) * nm;
 
-                    planes[num].GetComponent<PlaneMov>().descendPlane(planes[num].transform, new Vector3(x,y,z), t);
+                    planes[num].GetComponent<PlaneMov>().descendPlane(new Vector3(x,y,z), t);
                 }
             }
         }
@@ -100,7 +100,7 @@ public class Controller : MonoBehaviour
 
             if(num >= 0 && num < planes.Count) {
                 isLanding = true;
-                planes[num].GetComponent<PlaneMov>().descendPlane(planes[num].transform, new Vector3(0,0,0), 5.0f);
+                planes[num].GetComponent<PlaneMov>().landPlane();
             }
         }
     }

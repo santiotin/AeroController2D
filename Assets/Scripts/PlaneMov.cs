@@ -8,9 +8,11 @@ public class PlaneMov : MonoBehaviour
     public Sprite planeNormal;
     public Sprite planeDesc;
     public Sprite planeColision;
+    public Sprite planeLanding;
     public GameObject altitudeText;
     public GameObject idText;
     GameObject controller;
+    InputField console;
     float fuel = 0;
     float speed = 20;
     float module = 0;
@@ -22,6 +24,7 @@ public class PlaneMov : MonoBehaviour
     void Start()
     {
         controller = GameObject.Find ("Controller");
+        console = GameObject.Find("InputConsole").GetComponent<InputField>();
         module = calcModule(transform.position);
         fuel = Random.Range(4900.0f, 5000.0f);
     }
@@ -47,14 +50,22 @@ public class PlaneMov : MonoBehaviour
         id = i;
     }
 
-    public void descendPlane(Transform transform, Vector3 position, float timeToMove) {
-        StartCoroutine(MoveToPosition(transform,position,timeToMove));
+    public int getId() {
+        return id;
     }
 
-    IEnumerator MoveToPosition(Transform transform, Vector3 position, float timeToMove) {
+    public void descendPlane(Vector3 position, float timeToMove) {
+        StartCoroutine(MoveToPosition(position,timeToMove));
+    }
+
+    public void landPlane() {
+        StartCoroutine(landRoutine());
+    }
+
+    IEnumerator MoveToPosition(Vector3 position, float timeToMove) {
         descending = true;
         gameObject.transform.GetChild(0).transform.Rotate(Vector3.forward, 90);
-        if(!collision)gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeDesc;
+        if(!collision && position != new Vector3(0,0,0))gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeDesc;
         var currentPos = transform.position;
         var t = 0f;
         while(t < 1) {
@@ -66,7 +77,22 @@ public class PlaneMov : MonoBehaviour
         gameObject.transform.GetChild(0).transform.Rotate(Vector3.forward, -90);
         descending = false;
 
-        if(position == new Vector3(0,0,0)) OnDestroy();
+        if(position == new Vector3(0,0,0)) destroyPlane();
+    }
+
+    IEnumerator landRoutine() {
+        if(!collision)gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeLanding;
+        console.text = "Preparing Landing" + "\n";
+        yield return new WaitForSeconds(2);
+        console.text = console.text + "\n" + "Seatbells - CHECK";
+        yield return new WaitForSeconds(2);
+        console.text = console.text + "\n" + "Security - CHECK";
+        yield return new WaitForSeconds(2);
+        console.text = console.text + "\n" + "Spoilers - CHECK";
+        yield return new WaitForSeconds(2);
+        console.text = console.text + "\n" + "Wheels - CHECK" + "\n";
+        console.text = console.text + "\n" + "Start Landing";
+        StartCoroutine(MoveToPosition(new Vector3(0,0,0), 5.0f));
     }
 
     public float getModule(){
@@ -84,9 +110,10 @@ public class PlaneMov : MonoBehaviour
     {
         collision = true;
         gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeColision;
+        console.text = "Collision between plane " + id.ToString() + " and plane " + collider.gameObject.GetComponent<PlaneMov>().getId().ToString();
     }
 
-    void OnDestroy() {
+    void destroyPlane() {
         controller.GetComponent<Controller>().planeLanded(gameObject);
         Destroy(gameObject);
     }

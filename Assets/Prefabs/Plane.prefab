@@ -50,6 +50,7 @@ MonoBehaviour:
   planeNormal: {fileID: 21300000, guid: 0212714a12321934b944e88c5aa629d7, type: 3}
   planeDesc: {fileID: 21300000, guid: a6bceb9163fc16545adb47c38c84681b, type: 3}
   planeColision: {fileID: 21300000, guid: 43eb7fa14df221c4ca4451a8298a0c50, type: 3}
+  planeLanding: {fileID: 21300000, guid: 551cf0957fbb21c4bbc7ab7b4bc185a8, type: 3}
   altitudeText: {fileID: 3519452339749280905}
   idText: {fileID: 6072674464728159108}
 --- !u!65 &6440367549382123971
