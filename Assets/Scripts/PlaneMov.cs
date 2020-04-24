@@ -10,6 +10,7 @@ public class PlaneMov : MonoBehaviour
     public Sprite planeColision;
     public Sprite planeLanding;
     public GameObject altitudeText;
+    public GameObject fuelText;
     public GameObject idText;
     GameObject controller;
     InputField console;
@@ -20,6 +21,7 @@ public class PlaneMov : MonoBehaviour
     private Vector3 origin = new Vector3(0.0f, 0.0f, 0.0f);
     bool descending = false;
     bool collision = false;
+    bool fuelEnd = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,11 +34,24 @@ public class PlaneMov : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        fuel -= 1f;
+        if(fuel < 0 && !fuelEnd) {
+            fuelEnd = true;
+            console.text = "Plane " + id.ToString() + " don't have fuel";
+            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeColision;
+        }
+
+
         id = controller.GetComponent<Controller>().getIndex(gameObject);
         //show altitude
         int t = (int)(transform.position.z * 10f);
-        altitudeText.GetComponent<Text>().text = t.ToString();
+        int f = (int)fuel;
+
         idText.GetComponent<Text>().text = id.ToString();
+        altitudeText.GetComponent<Text>().text = t.ToString();
+
+        if(fuel >= 0 ) fuelText.GetComponent<Text>().text = f.ToString();
+        else fuelText.GetComponent<Text>().text = "0";
 
         if(!descending) {
             //move around
@@ -55,6 +70,7 @@ public class PlaneMov : MonoBehaviour
     }
 
     public void descendPlane(Vector3 position, float timeToMove) {
+        console.text = "Descending plane " + id.ToString() + " to altitude " + (position.z * 10.0f).ToString() + " in " + timeToMove.ToString() + " seconds" + "\n";
         StartCoroutine(MoveToPosition(position,timeToMove));
     }
 
@@ -65,7 +81,7 @@ public class PlaneMov : MonoBehaviour
     IEnumerator MoveToPosition(Vector3 position, float timeToMove) {
         descending = true;
         gameObject.transform.GetChild(0).transform.Rotate(Vector3.forward, 90);
-        if(!collision && position != new Vector3(0,0,0))gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeDesc;
+        if(!collision && !fuelEnd && position != new Vector3(0,0,0))gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeDesc;
         var currentPos = transform.position;
         var t = 0f;
         while(t < 1) {
@@ -73,15 +89,20 @@ public class PlaneMov : MonoBehaviour
             transform.position = Vector3.Lerp(currentPos, position, t);
             yield return null;
         }
-        if(!collision)gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeNormal;
+        if(!collision && !fuelEnd)gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeNormal;
         gameObject.transform.GetChild(0).transform.Rotate(Vector3.forward, -90);
         descending = false;
 
-        if(position == new Vector3(0,0,0)) destroyPlane();
+        console.text = "DONE" + "\n";
+
+        if(position == new Vector3(0,0,0)) {
+            console.text = console.text + "Plane landed" + "\n";
+            destroyPlane();
+        }
     }
 
     IEnumerator landRoutine() {
-        if(!collision)gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeLanding;
+        if(!collision && !fuelEnd)gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeLanding;
         console.text = "Preparing Landing" + "\n";
         yield return new WaitForSeconds(2);
         console.text = console.text + "\n" + "Seatbells - CHECK";

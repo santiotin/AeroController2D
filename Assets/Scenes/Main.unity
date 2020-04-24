@@ -1146,7 +1146,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Prep to Land
+  m_Text: Land
 --- !u!222 &662193422
 CanvasRenderer:
   m_ObjectHideFlags: 0
