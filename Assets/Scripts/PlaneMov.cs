@@ -8,6 +8,7 @@ public class PlaneMov : MonoBehaviour
     public Sprite planeNormal;
     public Sprite planeDesc;
     public Sprite planeColision;
+    public Sprite planeOutFuel;
     public Sprite planeLanding;
     public GameObject altitudeText;
     public GameObject fuelText;
@@ -38,7 +39,8 @@ public class PlaneMov : MonoBehaviour
         if(fuel < 0 && !fuelEnd) {
             fuelEnd = true;
             console.text = "Plane " + id.ToString() + " don't have fuel";
-            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeColision;
+            gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeOutFuel;
+            controller.GetComponent<Controller>().incOutFuelPlanes();
         }
 
 
@@ -67,6 +69,14 @@ public class PlaneMov : MonoBehaviour
 
     public int getId() {
         return id;
+    }
+
+    public int getAltitude(){
+        return (int)(transform.position.z * 10f);
+    }
+
+    public int getFuel(){
+        return (int)fuel;
     }
 
     public void descendPlane(Vector3 position, float timeToMove) {
@@ -129,6 +139,7 @@ public class PlaneMov : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
+        controller.GetComponent<Controller>().incCrashedPlanes();
         collision = true;
         gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeColision;
         console.text = "Collision between plane " + id.ToString() + " and plane " + collider.gameObject.GetComponent<PlaneMov>().getId().ToString();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Controller : MonoBehaviour
 {
@@ -12,10 +13,14 @@ public class Controller : MonoBehaviour
     public InputField inputFieldSec;
     public Button buttonDescend;
     public InputField inputFieldPrepPlane;
+    public InputField inputFieldPlaneInfo;
+    public InputField inputFieldPlaneInfoText;
     public Button buttonLand;
 
-    int generatedPlanes = 0;
-    int storedPlanes = 0;
+    int totalPlanes = 0;
+    int landedPlanes = 0;
+    int crashedPlanes = 0;
+    int outFuelPlanes = 0;
     bool isLanding = false;
 
     // Start is called before the first frame update
@@ -31,26 +36,43 @@ public class Controller : MonoBehaviour
     }
 
     public int addPlane(GameObject plane) {
+        totalPlanes++;
         planes.Add(plane);
         return planes.IndexOf(plane);
     }
 
     public void planeLanded(GameObject plane){
-        storedPlanes++;
+        landedPlanes++;
         planes.Remove(plane);
         isLanding = false;
     }
 
-    public int getNumPlanes() {
-        return planes.Count;
+    public int getTotalPlanes() {
+        return totalPlanes;
     }
 
-    public int getGeneratedPlanes() {
-        return generatedPlanes;
+    public int getFlyingPlanes() {
+        return totalPlanes - landedPlanes - crashedPlanes - outFuelPlanes;
     }
 
-    public int getStoredPlanes() {
-        return storedPlanes;
+    public int getLandedPlanes() {
+        return landedPlanes;
+    }
+
+    public int getCrashedPlanes() {
+        return crashedPlanes;
+    }
+
+    public int getOutFuelPlanes() {
+        return outFuelPlanes;
+    }
+
+    public void incCrashedPlanes() {
+        crashedPlanes++;
+    }
+
+    public void incOutFuelPlanes() {
+        outFuelPlanes++;
     }
 
     public int getIndex(GameObject plane) {
@@ -68,6 +90,20 @@ public class Controller : MonoBehaviour
         return false;
     }
 
+    public void onPressPlaneInfo() {
+        if(!string.IsNullOrEmpty(inputFieldPlaneInfo.text)) {
+            int num = int.Parse(inputFieldPlaneInfo.text);
+            if(num >= 0 && num < planes.Count) {
+                int id = planes[num].GetComponent<PlaneMov>().getId();
+                int alt = planes[num].GetComponent<PlaneMov>().getAltitude();
+                int fuel = planes[num].GetComponent<PlaneMov>().getFuel();
+
+                inputFieldPlaneInfoText.text = "Plane number: " + id.ToString() + " \n";
+                inputFieldPlaneInfoText.text = inputFieldPlaneInfoText.text + "Plane altitude: " + alt.ToString() + " \n";
+                inputFieldPlaneInfoText.text = inputFieldPlaneInfoText.text + "Plane fuel: " + fuel.ToString() + " \n";
+            }
+        }
+    }
     public void onPressDescend() {
         //comprobar que nada esté vacío
         if( !string.IsNullOrEmpty(inputFieldAlt.text) && !string.IsNullOrEmpty(inputFieldPlane.text) && !string.IsNullOrEmpty(inputFieldSec.text) ) {
@@ -103,5 +139,9 @@ public class Controller : MonoBehaviour
                 planes[num].GetComponent<PlaneMov>().landPlane();
             }
         }
+    }
+
+    public void resetSimulator(){
+        SceneManager.LoadScene(1);
     }
 }
