@@ -789,7 +789,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 50}
-  m_SizeDelta: {x: 500, y: 200}
+  m_SizeDelta: {x: 1000, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1173259706
 MonoBehaviour:
@@ -811,23 +811,27 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 40
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 3
+    m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Move Camera: Arrow keys
-
-
-    Zoom: Mouse wheel
-
-'
+  m_Text: "Descend: Introducir numero de avi\xF3n, altitud a la que se quiere ir y
+    duraci\xF3n del descenso. Solo se puede descender hasta 300 m.\n\nLand: introduir
+    numero de avi\xF3n para hacer aterrizar. El aterrizaje dura m\xEDnimo 10 segundos.\n\nConsoloe:
+    se muestran las comprobaciones de seguridad cuando un avion aterriza y los eventos
+    que ocurren ya sea por colisi\xF3n, porque se acaba el combustible o porque alguien
+    est\xE1 descendiendo.\n\nPlane details: introducir n\xFAmero de avi\xF3n para
+    ver su altitud y su combustible.\n\nTime: para resetear el simulador presionar
+    reset.\n\nColors: negro para normal, rojo para colisi\xF3n, rosa cuando se acaba
+    el combustible, azul para descenso, amarillo para aterrizaje.\n\nMove camera:
+    Arrow keys\n\nZoom: Mouse wheel\n"
 --- !u!222 &1173259707
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1094,7 +1098,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -300}
   m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1729295186

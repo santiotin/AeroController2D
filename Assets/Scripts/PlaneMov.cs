@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlaneMov : MonoBehaviour
 {
+    RandomFromDistribution.ConfidenceLevel_e conf_level = RandomFromDistribution.ConfidenceLevel_e._95;
     public Sprite planeNormal;
     public Sprite planeDesc;
     public Sprite planeColision;
@@ -114,13 +115,13 @@ public class PlaneMov : MonoBehaviour
     IEnumerator landRoutine() {
         if(!collision && !fuelEnd)gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = planeLanding;
         console.text = "Preparing Landing" + "\n";
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(RandomFromDistribution.RandomRangeNormalDistribution(1, 3, conf_level));
         console.text = console.text + "\n" + "Seatbells - CHECK";
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(RandomFromDistribution.RandomRangeNormalDistribution(1, 3, conf_level));
         console.text = console.text + "\n" + "Security - CHECK";
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(RandomFromDistribution.RandomRangeNormalDistribution(1, 3, conf_level));
         console.text = console.text + "\n" + "Spoilers - CHECK";
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(RandomFromDistribution.RandomRangeNormalDistribution(1, 3, conf_level));
         console.text = console.text + "\n" + "Wheels - CHECK" + "\n";
         console.text = console.text + "\n" + "Start Landing";
         StartCoroutine(MoveToPosition(new Vector3(0,0,0), 5.0f));

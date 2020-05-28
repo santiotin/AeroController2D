@@ -6,14 +6,14 @@ public class Spawner : MonoBehaviour
 {
     public GameObject planePrefab;
     public GameObject controller;
+    RandomFromDistribution.Direction_e direction = RandomFromDistribution.Direction_e.Right;
 
     float instantiationTimer;
-    float generationTime = 5f;
  
     // Start is called before the first frame update
     void Start()
     {
-         instantiationTimer = generationTime;
+        instantiationTimer = RandomFromDistribution.RandomRangeExponential(5,8, 2, direction);
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour
         //controller.GetComponent<Controller>().getNumPlanesOfLvl(3) < 12
         if(instantiationTimer <= 0 && controller.GetComponent<Controller>().getFlyingPlanes() < 10) {
             createPlane();
-            instantiationTimer = generationTime;
+            instantiationTimer = RandomFromDistribution.RandomRangeExponential(5,8, 2, direction);
         }
     }
 
