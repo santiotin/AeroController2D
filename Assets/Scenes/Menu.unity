@@ -822,16 +822,16 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Descend: Introducir numero de avi\xF3n, altitud a la que se quiere ir y
-    duraci\xF3n del descenso. Solo se puede descender hasta 300 m.\n\nLand: introduir
-    numero de avi\xF3n para hacer aterrizar. El aterrizaje dura m\xEDnimo 10 segundos.\n\nConsoloe:
-    se muestran las comprobaciones de seguridad cuando un avion aterriza y los eventos
-    que ocurren ya sea por colisi\xF3n, porque se acaba el combustible o porque alguien
-    est\xE1 descendiendo.\n\nPlane details: introducir n\xFAmero de avi\xF3n para
-    ver su altitud y su combustible.\n\nTime: para resetear el simulador presionar
-    reset.\n\nColors: negro para normal, rojo para colisi\xF3n, rosa cuando se acaba
-    el combustible, azul para descenso, amarillo para aterrizaje.\n\nMove camera:
-    Arrow keys\n\nZoom: Mouse wheel\n"
+  m_Text: "Descend: introducir n\xFAmero de avi\xF3n, altitud a la que se quiere ir
+    y duraci\xF3n del descenso. Solo se puede descender hasta 300 m.\n\nLand: introducir
+    n\xFAmero de avi\xF3n para hacer aterrizar. Solo se puede aterrizar un avi\xF3n
+    si est\xE1 a 300 m de altitud.\n\nConsoloe: se muestran las comprobaciones de
+    seguridad cuando un avion aterriza y los eventos que ocurren ya sea por colisi\xF3n,
+    porque se acaba el combustible o porque alguien est\xE1 descendiendo.\n\nPlane
+    details: introducir n\xFAmero de avi\xF3n para ver su altitud y su combustible.\n\nTime:
+    para resetear el simulador presionar reset.\n\nColors: negro para normal, rojo
+    para colisi\xF3n, rosa cuando se acaba el combustible, azul para descenso, amarillo
+    para aterrizaje.\n\nMove camera: Arrow keys\n\nZoom: Mouse wheel\n"
 --- !u!222 &1173259707
 CanvasRenderer:
   m_ObjectHideFlags: 0

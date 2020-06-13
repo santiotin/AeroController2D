@@ -134,7 +134,7 @@ public class Controller : MonoBehaviour
         if(!string.IsNullOrEmpty(inputFieldPrepPlane.text) && !isLanding) {
             int num = int.Parse(inputFieldPrepPlane.text);
 
-            if(num >= 0 && num < planes.Count) {
+            if(num >= 0 && num < planes.Count && planes[num].GetComponent<PlaneMov>().getAltitude() <= 300) {
                 isLanding = true;
                 planes[num].GetComponent<PlaneMov>().landPlane();
             }
